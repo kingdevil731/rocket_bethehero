@@ -6,6 +6,15 @@ const IncidentController = require('./controllers/IncidentController');
 const ProfileController = require('./controllers/ProfileController');
 const SessionController = require('./controllers/SessionController');
 
+/**
+ *
+ *   Tipos de Paramêtros:
+ *
+ *   Query Paramns: Paramêtros nomeados enviados na rota após "?" (Filtros,Páginação).
+ *   Route Paramns: Paramêtros utilizado para identificar recursos.
+ *   Request Body: Corpo da requisição, utilizado para criar ou alterar recursos.
+ *
+ **/
 // declaraco/instalizacao do Router
 const routes = express.Router();
 
