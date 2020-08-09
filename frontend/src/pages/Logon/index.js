@@ -1,6 +1,8 @@
 import React from 'react';
 // style import
 import './styles.css';
+//icon
+import {FiLogIn} from 'react-icons/fi';
 // images
 import heroesImage from '../../assets/heroes.png';
 import logoImage from '../../assets/logo.svg';
@@ -18,7 +20,7 @@ export default function Logon(){
                 <button type="submit">Entrar</button>
 
                 <a href="/register">
-                    
+                    <FiLogIn/>
                     Nao Tenho Cadastro
                 </a>
             </form>
