@@ -1,5 +1,5 @@
 const express = require('express');
-//const cors = require('cors');
+const cors = require('cors');
 const routes = require('./routes');
 
 const app = express();
@@ -9,7 +9,6 @@ const app = express();
 app.use(cors({
     origin: 'herokuapp.com'
 }));
-
 */
 app.use(cors());
 //declarar que ira usar o json

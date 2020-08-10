@@ -1,7 +1,7 @@
 // react
 import React, {useState} from 'react';
 // import link to be a spa
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 // import arrow Left svg/icon
 import {FiArrowLeft} from 'react-icons/fi';
 //import styles
@@ -16,28 +16,32 @@ export default function Register() {
   //first * is var name
   //sec is the function to set the value (mutable*)
   //useState '' is to set default value to be blank
-  const [nome, setNome] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
-  const [cidade, setCidade] = useState('');
+  const [city, setCity] = useState('');
   const [uf, setUf] = useState('');
+  const history = useHistory();
+
 
   async function handleRegister(e){
    e.preventDefault();
 
    const data = {
-     nome,
+     name,
      email,
      whatsapp,
-     cidade,
+     city,
      uf,
-   }
+   };
     
 
    try{
-     const resultado = await api.post("ongs", data);
-     console.log(resultado.data);
+     console.log(data);
+     const resultado = await api.post('ongs', data);
+     //console.log(resultado.data);
      alert(`Cadastro com successo ${resultado.data.id} E o seu id`);
+     history.push('/');
    } catch(err){
      console.log(err);
      alert("Error no cadastro, tente novamente");
@@ -65,18 +69,21 @@ export default function Register() {
 
           <form onSubmit={handleRegister}>
             <input
-              name={nome}
-              onChange={(e) => setNome(e.target.value)}
+              required
+              name={name}
+              onChange={(e) => setName(e.target.value)}
               type="text"
               placeholder="Nome"
             />
             <input
+              required
               name={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="E-mail"
             />
             <input
+              required
               name={whatsapp}
               onChange={(e) => setWhatsapp(e.target.value)}
               type="text"
@@ -84,12 +91,14 @@ export default function Register() {
             />
             <div className="input-group">
               <input
-                name={cidade}
-                onChange={(e) => setCidade(e.target.value)}
+                required
+                name={city}
+                onChange={(e) => setCity(e.target.value)}
                 type="text"
                 placeholder="Cidade"
               />
               <input
+                required
                 name={uf}
                 onChange={(e) => setUf(e.target.value)}
                 type="text"

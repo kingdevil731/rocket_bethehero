@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 // style import
 import './styles.css';
 //Link 
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+// API
+import api from '../../services/api';
 //icon
 import {FiLogIn} from 'react-icons/fi';
 // images
@@ -10,15 +12,43 @@ import heroesImage from '../../assets/heroes.png';
 import logoImage from '../../assets/logo.svg';
 
 export default function Logon(){
+    const [id, setId] = useState("");
+    const idInStorage = localStorage.getItem('ongId');
+    const history = useHistory();
+
+    // First Function when the Component is called, to check if any id present in storage, to redirect to the profile instead of asking user to insert Id Again
+    // TODO fix bug/
+    useEffect(() => {
+        console.log(idInStorage);
+        if(idInStorage != null || idInStorage != undefined){
+            history.push('/profile');
+        } else {
+            return;
+        }  
+    }, []);
+
+    async function handleLogin(e){
+        e.preventDefault();
+        try{
+            const response = await api.post('sessions', {id});
+            localStorage.setItem('ongId', id);
+            localStorage.setItem('ongName', response.data.name);
+            history.push('/profile');
+        }catch(err){
+            alert(`Falha no Login de Secção. #Id Errado, Tente Novamente`);
+        }
+        
+    }
+    
     return(
        <div className="logon-contaier">
            <section className="form">
             <img src={logoImage} alt="logoImage"/>
 
-            <form>
+            <form onSubmit={handleLogin}>
                 <h1>Faca Seu Logon</h1>
 
-                <input type="text" placeholder="Sua Id"/>
+                <input required type="text" value={id} onChange={e => setId(e.target.value)} placeholder="Sua Id"/>
                 <button className="button" type="submit">Entrar</button>
 
                 <Link className="backlink" to="/register">
