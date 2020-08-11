@@ -1,7 +1,7 @@
 // studdy* more the functions in react 
 import React, {useState, useEffect} from 'react';
 //Link
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 // import icons[power icon & delete] and logo
 import logoImg from '../../assets/logo.svg';
 import {FiPower, FiTrash2} from 'react-icons/fi';
@@ -15,6 +15,7 @@ export default function Profile(){
  const ongId = localStorage.getItem('ongId');
  const ongName = localStorage.getItem('ongName');
  const [count, setCount] = useState(0);
+ const history = useHistory();
 
     useEffect(() => {
       api.get('incidents/profile', {
@@ -27,6 +28,12 @@ export default function Profile(){
       });
     }, [ongId]);
 
+    function handleLogOut(){
+      localStorage.clear();
+      history.push('/');
+
+    }
+
     async function handleDelete(id){
       try {
         await api.delete(`incidents/${id}`, {
@@ -36,6 +43,10 @@ export default function Profile(){
         });
 
         setIncidents(incidents.filter(i => i.id !== id));
+        // Actualizar o Counter com o numero actual de casos 
+        // sera a resposta - 1 , porque ira retornar o valor anterior
+        setCount(incidents.length - 1);
+        
       } catch (error) {
         alert('Error, Tente novamente :)');
       }
@@ -50,7 +61,7 @@ export default function Profile(){
           <Link className="button" to="/incidents/new">
             Cadastrar novo caso
           </Link>
-          <button>
+          <button onClick={handleLogOut}>
             <FiPower size={18} color="#E02041" />
           </button>
         </header>

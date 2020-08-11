@@ -17,22 +17,25 @@ export default function NewIncident(){
   const [value, setValue] = useState('');
   const id = localStorage.getItem('ongId');
   const history = useHistory();
-  const data = {
-    title,
-    description,
-    value
-  }
+  
 
   async function handleRegister(e){
     e.preventDefault();
 
+    const data = {
+      title,
+      description,
+      value,
+    };
+
     try {
-      const response = await api.post("incidents", data, {
-        headers: {
-          Authorization: id,
-        },
-      });
-      alert(`Your Id is ${response.data.id}`);
+      await api
+        .post("incidents", data, {
+          headers: {
+            Authorization: id,
+          },
+        });
+      history.push('/profile');
     } catch (error) {
       alert('Error ao criar, Tente novamente!');
     }
@@ -67,12 +70,14 @@ export default function NewIncident(){
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               type="email"
+              
               placeholder="Descricao"
             />
             <input
               value={value}
               onChange={(e) => setValue(e.target.value)}
               type="text"
+              
               placeholder="Valor em USD"
             />
             <button className="button" type="submit">
