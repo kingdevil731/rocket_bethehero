@@ -16,7 +16,6 @@ module.exports = {
         const { page = 1 } = request.query;
 
         const [count] = await connection("incidents").count();
-        console.log(count);
 
         const dados = await connection("incidents")
             // Join = relacionamento
